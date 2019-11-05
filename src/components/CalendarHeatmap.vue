@@ -47,7 +47,7 @@
         )
           rect.vch__day__square(
             v-for="(day, dayIndex) in week",
-            v-if="day.date"
+            v-if="day.date < now"
             :key="dayIndex",
             :transform="getDayPosition(dayIndex)"
             :width="SQUARE_SIZE - SQUARE_BORDER_SIZE",
@@ -99,10 +99,6 @@ export default {
     vertical: {
       type: Boolean,
       default: false
-    },
-    noDataText: {
-      type: String,
-      default: null
     }
   },
 
@@ -183,16 +179,9 @@ export default {
   methods: {
     tooltipOptions (day) {
       if (this.tooltip) {
-        if (day.count != null) {
-          return {
-            content: `<b>${day.count} ${this.tooltipUnit}</b> ${this.lo.on} ${this.lo.months[day.date.getMonth()]} ${day.date.getDate()}, ${day.date.getFullYear()}`,
-            delay: { show: 150, hide: 50 }
-          }
-        } else if (this.noDataText) {
-          return {
-            content: `${this.noDataText}`,
-            delay: { show: 150, hide: 50 }
-          }
+        return {
+          content: `<b>${day.count} ${this.tooltipUnit}</b> ${this.lo.on} ${this.lo.months[day.date.getMonth()]} ${day.date.getDate()}, ${day.date.getFullYear()}`,
+          delay: { show: 150, hide: 50 }
         }
       }
       return false

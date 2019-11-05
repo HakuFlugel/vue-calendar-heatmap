@@ -32,7 +32,7 @@ export default class CalendarHeatmap {
           date.setDate(date.getDate() + 1)
           return {
             date: dDate,
-            count: dayValues ? dayValues.count : null,
+            count: dayValues ? dayValues.count : 0,
             colorIndex: dayValues ? dayValues.colorIndex : 0
           }
         }
@@ -54,14 +54,12 @@ export default class CalendarHeatmap {
   }
 
   getColorIndex (value) {
-    if (value == null || value === undefined) {
+    if (value <= 0) {
       return 0
-    } else if (value <= 0) {
-      return 1
     } else if (value >= this.max) {
-      return 5
+      return 4
     } else {
-      return (Math.ceil(((value * 100) / this.max) * (0.03))) + 1
+      return Math.ceil(((value * 100) / this.max) * (0.03))
     }
   }
 
